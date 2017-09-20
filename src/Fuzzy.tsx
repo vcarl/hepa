@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import * as PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import { Control } from "./filter.d";
 
