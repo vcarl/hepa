@@ -1,4 +1,4 @@
 *.log
 node_modules
-filter.js
+index.js
 
