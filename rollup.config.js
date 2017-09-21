@@ -7,7 +7,7 @@ export default {
 
   output: {
     name: "filter.js",
-    format: "umd",
+    format: "cjs",
     globals: {
       react: "React",
       "prop-types": "PropTypes",
