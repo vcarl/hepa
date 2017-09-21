@@ -14,6 +14,7 @@ export default {
       moment: "moment"
     }
   },
+  external: ["react", "prop-types", "moment"],
 
   plugins: [
     typescript({ typescript: require("typescript") }),
