@@ -5,6 +5,7 @@
     "module": "es2015",
     "strictNullChecks": true,
     "jsx": "react",
-    "target": "es3"
+    "target": "es3",
+    "lib": ["dom", "es7"]
   }
 }
