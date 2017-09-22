@@ -36,8 +36,6 @@ interface State<T> {
  * `context.registerControl` function, and a `Filter` component that consumes
  * `context.subscribe`.
  */
-  filterString = "INITIAL";
-
 export default class FilterProvider<T> extends React.Component<{}, State<T>> {
   state: State<T> = {
     controls: [],
@@ -79,18 +77,15 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
       controls: [...controls.slice(0, index), ...controls.slice(index + 1)]
     }));
   };
-  updateSubscribers() {
-    let lastFilter = this.filterString;
-    this.filterString = this.state.controls
-      .map(control => control())
-      .filter(control => control)
-      .map(control => `${control[0]}:${control[1]}`)
-      .join(";");
-
-    if (lastFilter !== this.filterString) {
-      const predicate = buildPredicate(this.filterString);
-      this.state.subscribers.forEach(subscriber => subscriber(predicate));
+  updateSubscribers({ controls }) {
+    function predicate(values: T) {
+      const filteredControls = controls
+        .map(cc => cc())
+        .filter(x => x !== undefined) as ControlPair<T>[];
+      return filteredControls.every(pair => pair[1](pair[0](values)));
     }
+
+    this.state.subscribers.forEach(subscriber => subscriber(predicate));
   }
   subscribe = (listener: Subscriber<T>) => {
     this.setState(({ subscribers }) => ({
