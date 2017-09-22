@@ -5,7 +5,7 @@ import { ControlPair, FilterContext } from "./filter.d";
 
 const isActive = (value: string) => value !== "";
 
-interface Props<Data, MappedValue> {
+export interface Props<Data, MappedValue> {
   mapValuesToComparison: (datum: Data) => MappedValue;
   compare: (comparator: string) => (dataValue: MappedValue) => boolean;
   name?: string;
@@ -13,7 +13,7 @@ interface Props<Data, MappedValue> {
   value?: string;
 }
 
-interface State {
+export interface State {
   value: string;
 }
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import FilterControl from "./FilterControl";
 
-interface Props {
+export interface Props {
   name: string;
 }
 

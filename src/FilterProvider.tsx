@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { Control, ControlPair, Predicate, FilterContext } from "./filter.d";
 
-type Subscriber<T> = (predicate: Predicate<T>) => boolean;
+export type Subscriber<T> = (predicate: Predicate<T>) => boolean;
 
-interface State<T> {
+export interface State<T> {
   controls: Array<Control<T, any>>;
   subscribers: Array<Subscriber<T>>;
 }

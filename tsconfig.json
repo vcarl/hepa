@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "module": "es2015",
+    "declaration": true,
     "moduleResolution": "node",
     "strictNullChecks": true,
     "noUnusedLocals": true,
@@ -10,6 +11,7 @@
     "jsx": "react",
     "lib": ["dom", "es7"],
     "target": "es5",
-    "importHelpers": true
+    "importHelpers": true,
+    "outDir": "."
   }
 }
