@@ -1,29 +1,23 @@
 import React, { ReactElement, ReactInstance } from "react";
 import PropTypes from "prop-types";
+import { Predicate } from "./filter.d";
 
 type VoidFunc = () => void;
-interface Predicate {
-  (any): boolean;
-}
-interface Props<Datum> {
-  data: Datum[];
-}
-type ComponentWithData<T> = React.Component<{ data: T[] }, {}>;
 
-interface WithFilterHOC<T> {
-  (component: React.Component<{ data: T[] }, {}>): React.Component<{}, {}>;
+interface Props<T> {
+  data: T[];
 }
 
 function WithFilteredData<T>(
   Thing: new () => React.Component<Props<T> | {}, {}>
-) {
-  return class WithFilter extends React.Component<{ data: any[] }, {}> {
+): React.ComponentClass {
+  return class WithFilter extends React.Component<{ data: T[] }, {}> {
     static contextTypes = {
       subscribe: PropTypes.func
     };
 
-    unsubscribe: VoidFunc = () => {};
-    predicate: Predicate = () => true;
+    unsubscribe = (): void => {};
+    predicate: Predicate<T> = () => true;
 
     componentDidMount() {
       this.unsubscribe = this.context.subscribe(this.updateFilter);
@@ -31,7 +25,7 @@ function WithFilteredData<T>(
     componentWillUnmount() {
       this.unsubscribe();
     }
-    updateFilter = (predicate: Predicate) => {
+    updateFilter = (predicate: Predicate<T>) => {
       this.predicate = predicate;
       this.forceUpdate();
     };
