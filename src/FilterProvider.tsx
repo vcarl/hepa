@@ -14,23 +14,31 @@ interface State<T> {
 
 /**
  * FilterProvider exposes controls on context for managing filters in a
- * flexible, composable way. The meat of the functionality is provided by the
- * `buildPrediate` function, which provides methods for deserializing a string
- * of key:value pairs into a filter predicate.
+ * flexible, composable way. Any filter control below it in the hierarchy will
+ * get pass its predicate up, and any filter result will grab all predicates 
+ * to filter data that's passed in.
  *
  * The context methods are
  *  - registerControl()
  *  - subscribe()
  *
- * `registerControl` takes a function that returns a key-value tuple or
- * undefined, and returns an object with two attributes: an `update` function
- * for notifying FilterProvider that something has changed and it needs to
- * recalculate the predicate, and an `unregister` function for removing the
- * control (e.g. when a control unmounts).
+ * `registerControl` takes a function as an argument and returns an object with
+ * two attributes: `update` and `unregister` functions.
+ *   
+ *   The argument returns either undefined or a tuple of 2 functions. The first
+ *   gets a data object and returns what values it wants to compare to, and the
+ *   second is a curried function of:
+ *   `filter value => output of first function => boolean`
+ *   
+ *   `update` is used for notifying FilterProvider that a filter value has
+ *   changed annd the predicate needs to be recalculated.
+ *   `unregister` function is used for removing the control (e.g. when a control
+ *   unmounts).
+ * 
  *
- * `subscribe` takes a callback that expects no arguments and returns no value
+ * `subscribe` takes a callback that takes no arguments and returns no value
  * to call whenever the filter predicate changes. It returns a function for
- * unsubscribing.
+ * unsubscribing, which also requires no arguments.
  *
  * There are a number of "control" components that make use of the
  * `context.registerControl` function, and a `Filter` component that consumes
