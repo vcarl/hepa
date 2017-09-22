@@ -7,5 +7,6 @@
     "jsx": "react",
     "target": "es3",
     "lib": ["dom", "es7"]
+    "importHelpers": true,
   }
 }
