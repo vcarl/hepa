@@ -15,7 +15,7 @@ interface State {
 }
 
 export default class NewExact<T> extends React.Component<Props, State> {
-  mapValuesToComparison = datum => datum[this.props.name];
+  mapValuesToComparison = datum => datum[this.props.name].toLowerCase();
   compare = filterValue => dataValue => dataValue === filterValue;
   render() {
     type TypedFilterControl = new () => FilterControl<T, string>;
