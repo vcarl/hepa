@@ -64,7 +64,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
   componentDidMount() {
     this.updateSubscribers(this.state);
   }
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(_nextProps, nextState) {
     this.updateSubscribers(nextState);
   }
   componentWillUnmount() {}

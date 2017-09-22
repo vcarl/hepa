@@ -1,20 +1,16 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import FilterControl from "./FilterControl";
-import { ControlPair, FilterContext } from "./filter.d";
-
-const isActive = (value: string) => value !== "";
 
 interface Props {
   keys: string[];
 }
 
-interface State {
-  value: string;
-}
-
-export default class Search<T> extends React.Component<Props, State> {
+export default class Search<T> extends React.Component<Props, {}> {
+  static propTypes = {
+    keys: PropTypes.arrayOf(PropTypes.string).isRequired
+  };
   mapValuesToComparison = (datum: T): string[] => {
     const { keys } = this.props;
 
