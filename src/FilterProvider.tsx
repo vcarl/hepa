@@ -56,10 +56,10 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
     };
   };
   componentDidMount() {
-    this.updateSubscribers();
+    this.updateSubscribers(this.state);
   }
-  componentWillUpdate() {
-    this.updateSubscribers();
+  componentWillUpdate(nextProps, nextState) {
+    this.updateSubscribers(nextState);
   }
   componentWillUnmount() {}
   registerControl = (control: Control<T>) => {
