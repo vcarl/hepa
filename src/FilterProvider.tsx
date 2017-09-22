@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 
 import buildPredicate from "./buildPredicate";
 
-import { Control } from "./filter.d";
+import { Control, ControlPair, Predicate, FilterContext } from "./filter.d";
 
-type Subscriber = (predicate: Function) => boolean;
+type Subscriber<T> = (predicate: Predicate<T>) => boolean;
 
-interface State {
-  controls: Control[];
-  subscribers: Array<Subscriber>;
+interface State<T> {
+  controls: Array<Control<T>>;
+  subscribers: Array<Subscriber<T>>;
 }
 
 /**
@@ -36,13 +36,15 @@ interface State {
  * `context.registerControl` function, and a `Filter` component that consumes
  * `context.subscribe`.
  */
-export default class FilterProvider extends React.Component<{}, State> {
   filterString = "INITIAL";
 
-  state: State = {
+export default class FilterProvider<T> extends React.Component<{}, State<T>> {
+  state: State<T> = {
     controls: [],
     subscribers: []
   };
+
+  context: FilterContext<T>;
 
   static childContextTypes = {
     registerControl: PropTypes.func,
@@ -62,7 +64,7 @@ export default class FilterProvider extends React.Component<{}, State> {
     this.updateSubscribers();
   }
   componentWillUnmount() {}
-  registerControl = (control: Control) => {
+  registerControl = (control: Control<T>) => {
     // Prepend the new control to state.controls.
     this.setState(({ controls }) => ({ controls: [control, ...controls] }));
 
@@ -71,7 +73,7 @@ export default class FilterProvider extends React.Component<{}, State> {
       update: this.forceUpdate.bind(this)
     };
   };
-  unregister = (control: Control) => () => {
+  unregister = (control: Control<T>) => () => {
     let index = this.state.controls.findIndex(x => x === control);
     this.setState(({ controls }) => ({
       controls: [...controls.slice(0, index), ...controls.slice(index + 1)]
@@ -90,7 +92,7 @@ export default class FilterProvider extends React.Component<{}, State> {
       this.state.subscribers.forEach(subscriber => subscriber(predicate));
     }
   }
-  subscribe = (listener: Subscriber) => {
+  subscribe = (listener: Subscriber<T>) => {
     this.setState(({ subscribers }) => ({
       subscribers: [listener, ...subscribers]
     }));
