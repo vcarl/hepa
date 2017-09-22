@@ -57,12 +57,16 @@ export default class FilterControl<T> extends React.Component<Props<T>, State> {
     this.setState({ value }, this.updateFilter);
   };
   render() {
+    const {
+      mapValuesToComparison,
+      compare,
+      name,
+      onChange,
+      value,
+      ...rest
+    } = this.props;
     return (
-      <input
-        value={this.getValue()}
-        onChange={this.handleChange}
-        {...this.props}
-      />
+      <input {...rest} value={this.getValue()} onChange={this.handleChange} />
     );
   }
 }
