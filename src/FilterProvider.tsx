@@ -8,7 +8,7 @@ import { Control, ControlPair, Predicate, FilterContext } from "./filter.d";
 type Subscriber<T> = (predicate: Predicate<T>) => boolean;
 
 interface State<T> {
-  controls: Array<Control<T>>;
+  controls: Array<Control<T, any>>;
   subscribers: Array<Subscriber<T>>;
 }
 
@@ -50,7 +50,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
     subscribers: []
   };
 
-  context: FilterContext<T>;
+  context: FilterContext<T, any>;
 
   static childContextTypes = {
     registerControl: PropTypes.func,
@@ -70,7 +70,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
     this.updateSubscribers(nextState);
   }
   componentWillUnmount() {}
-  registerControl = (control: Control<T>) => {
+  registerControl = (control: Control<T, any>) => {
     // Prepend the new control to state.controls.
     this.setState(({ controls }) => ({ controls: [control, ...controls] }));
 
@@ -79,7 +79,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
       update: this.forceUpdate.bind(this)
     };
   };
-  unregister = (control: Control<T>) => () => {
+  unregister = (control: Control<T, any>) => () => {
     let index = this.state.controls.findIndex(x => x === control);
     this.setState(({ controls }) => ({
       controls: [...controls.slice(0, index), ...controls.slice(index + 1)]
@@ -89,7 +89,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
     function predicate(values: T) {
       const filteredControls = controls
         .map(cc => cc())
-        .filter(x => x !== undefined) as ControlPair<T>[];
+        .filter(x => x !== undefined) as ControlPair<T, any>[];
       return filteredControls.every(pair => pair[1](pair[0](values)));
     }
 

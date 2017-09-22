@@ -18,7 +18,7 @@ export default class NewExact<T> extends React.Component<Props, State> {
   mapValuesToComparison = datum => datum[this.props.name];
   compare = comparator => dataValue => dataValue === comparator;
   render() {
-    type TypedFilterControl = new () => FilterControl<T>;
+    type TypedFilterControl = new () => FilterControl<T, string>;
     const TypedFilterControl = FilterControl as TypedFilterControl;
     return (
       <TypedFilterControl
