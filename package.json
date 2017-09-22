@@ -10,9 +10,9 @@
     "fast-memoize": "^2.2.8"
   },
   "peerDependencies": {
-    "react": ">=15",
-    "prop-types": "^15.5.10",
-    "moment": ">=2"
+    "moment": ">=2",
+    "prop-types": ">=15",
+    "react": ">=15"
   },
   "devDependencies": {
     "rollup": "^0.50.0",
