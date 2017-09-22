@@ -1,49 +1,32 @@
 import React, { ChangeEvent } from "react";
 import PropTypes from "prop-types";
 
-import { Control } from "./filter.d";
+import FilterControl from "./FilterControl";
+import { ControlPair, FilterContext } from "./filter.d";
 
-type VoidFunc = () => void;
+const isActive = (value: string) => value !== "";
 
-const isActive = value => value !== "";
+interface Props {
+  name: string;
+}
 
-export default class Fuzzy extends React.Component<{}, {}> {
-  static contextTypes = {
-    registerControl: PropTypes.func
-  };
-  props: {
-    name: string;
-  };
-  state = {
-    value: ""
-  };
-  updateFilter: VoidFunc = () => {};
-  unregisterControl: VoidFunc = () => {};
+interface State {
+  value: string;
+}
 
-  componentDidMount() {
-    let { unregister, update } = this.context.registerControl(this.control);
-    this.updateFilter = update;
-    this.unregisterControl = unregister;
-  }
-  componentWillUnmount() {
-    this.unregisterControl();
-  }
-  control: Control = () => {
-    if (isActive(this.state.value)) {
-      return [this.props.name, `~${this.state.value}`];
-    }
-    return undefined;
-  };
-  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    this.setState({ value }, this.updateFilter);
-  };
+export default class Fuzzy<T> extends React.Component<Props, State> {
+  mapValuesToComparison = (datum: T): string =>
+    datum[this.props.name].toLowerCase();
+  compare = (filterValue: string) => (dataValue: string) =>
+    new RegExp(filterValue.split("").join(".*")).test(dataValue);
   render() {
+    type TypedFilterControl = new () => FilterControl<T, string>;
+    const TypedFilterControl = FilterControl as TypedFilterControl;
     return (
-      <input
-        value={this.state.value}
-        onChange={this.handleChange}
-        {...this.props}
+      <TypedFilterControl
+        name={this.props.name}
+        mapValuesToComparison={this.mapValuesToComparison}
+        compare={this.compare}
       />
     );
   }
