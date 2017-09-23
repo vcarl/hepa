@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import PropTypes from "prop-types";
 
-import { ControlPair, FilterContext } from "./filter.d";
+import { ControlPair, FilterContext } from "./index";
 
 const isActive = (value: string) => value !== "";
 

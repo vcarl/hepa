@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Predicate } from "./filter.d";
+import { Predicate } from "./index";
 
 export interface Props<T> {
   data: T[];

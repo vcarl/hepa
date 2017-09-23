@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Control, ControlPair, Predicate, FilterContext } from "./filter.d";
+import { Control, ControlPair, Predicate, FilterContext } from "./index";
 
 export type Subscriber<T> = (predicate: Predicate<T>) => boolean;
 
