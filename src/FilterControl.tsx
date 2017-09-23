@@ -21,6 +21,13 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
   Props<Data, MappedValue>,
   State
 > {
+  static propTypes = {
+    mapValuesToComparison: PropTypes.func.isRequired,
+    compare: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    onChange: PropTypes.func,
+    value: PropTypes.string
+  };
   static contextTypes = {
     registerControl: PropTypes.func
   };

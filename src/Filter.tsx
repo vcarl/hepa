@@ -13,6 +13,10 @@ export interface Props<T> {
 }
 
 export default class Filter<T> extends React.Component<Props<T>, {}> {
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+    render: PropTypes.func.isRequired
+  };
   static contextTypes = {
     subscribe: PropTypes.func
   };
