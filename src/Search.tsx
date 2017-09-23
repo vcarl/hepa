@@ -1,49 +1,35 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import { Control } from "./filter.d";
+import FilterControl from "./FilterControl";
 
-type VoidFunc = () => void;
+export interface Props {
+  keys: string[];
+}
 
-const isActive = value => value !== "";
+export default class Search<T> extends React.Component<Props, {}> {
+  static propTypes = {
+    keys: PropTypes.arrayOf(PropTypes.string).isRequired
+  };
+  mapValuesToComparison = (datum: T): string[] => {
+    const { keys } = this.props;
 
-export default class Search extends React.Component<{}, {}> {
-  static contextTypes = {
-    registerControl: PropTypes.func
-  };
-  props: {
-    name: string;
-  };
-  state = {
-    value: ""
-  };
-  updateFilter: VoidFunc = () => {};
-  unregisterControl: VoidFunc = () => {};
+    const values = keys.reduce((out: Array<string>, key, i) => {
+      out[i] = datum[key].toLowerCase();
+      return out;
+    }, new Array<string>(keys.length));
 
-  componentDidMount() {
-    let { unregister, update } = this.context.registerControl(this.control);
-    this.updateFilter = update;
-    this.unregisterControl = unregister;
-  }
-  componentWillUnmount() {
-    this.unregisterControl();
-  }
-  control: Control = () => {
-    if (isActive(this.state.value)) {
-      return [this.props.name, `?${this.state.value}`];
-    }
-    return undefined;
+    return values;
   };
-  handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-    this.setState({ value }, this.updateFilter);
-  };
+  compare = (filterValue: string) => (dataValues: string[]): boolean =>
+    dataValues.some(value => value.includes(filterValue));
   render() {
+    type TypedFilterControl = new () => FilterControl<T, string[]>;
+    const TypedFilterControl = FilterControl as TypedFilterControl;
     return (
-      <input
-        value={this.state.value}
-        onChange={this.handleChange}
-        {...this.props}
+      <TypedFilterControl
+        mapValuesToComparison={this.mapValuesToComparison}
+        compare={this.compare}
       />
     );
   }

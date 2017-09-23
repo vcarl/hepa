@@ -1,24 +1,20 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import FilterControl from "./FilterControl";
-import { ControlPair, FilterContext } from "./filter.d";
 
-const isActive = (value: string) => value !== "";
-
-interface Props {
+export interface Props {
   name: string;
 }
 
-interface State {
-  value: string;
-}
-
-export default class NewExact<T> extends React.Component<Props, State> {
-  mapValuesToComparison = datum => datum[this.props.name];
-  compare = comparator => dataValue => dataValue === comparator;
+export default class NewExact<T> extends React.Component<Props, {}> {
+  static propTypes = {
+    name: PropTypes.string.isRequired
+  };
+  mapValuesToComparison = datum => datum[this.props.name].toLowerCase();
+  compare = filterValue => dataValue => dataValue === filterValue;
   render() {
-    type TypedFilterControl = new () => FilterControl<T>;
+    type TypedFilterControl = new () => FilterControl<T, string>;
     const TypedFilterControl = FilterControl as TypedFilterControl;
     return (
       <TypedFilterControl

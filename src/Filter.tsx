@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 
 import { ReactChild } from "react";
 
-interface VoidFunc {
-  (): void;
-}
-interface Predicate {
+export interface Predicate {
   (): boolean;
 }
 
-interface Props<T> {
+export interface Props<T> {
   data: T[];
   render: (data: T[]) => ReactChild;
 }
@@ -19,7 +16,7 @@ export default class Filter<T> extends React.Component<Props<T>, {}> {
   static contextTypes = {
     subscribe: PropTypes.func
   };
-  unsubscribe: VoidFunc = () => {};
+  unsubscribe = () => {};
   predicate: Predicate = () => true;
 
   componentDidMount() {

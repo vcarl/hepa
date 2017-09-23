@@ -5,26 +5,29 @@ import { ControlPair, FilterContext } from "./filter.d";
 
 const isActive = (value: string) => value !== "";
 
-interface Props<T> {
-  mapValuesToComparison: (datum: T) => number | string;
-  compare: (comparator: string) => (dataValue: string) => boolean;
+export interface Props<Data, MappedValue> {
+  mapValuesToComparison: (datum: Data) => MappedValue;
+  compare: (comparator: string) => (dataValue: MappedValue) => boolean;
   name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
 }
 
-interface State {
+export interface State {
   value: string;
 }
 
-export default class FilterControl<T> extends React.Component<Props<T>, State> {
+export default class FilterControl<Data, MappedValue> extends React.Component<
+  Props<Data, MappedValue>,
+  State
+> {
   static contextTypes = {
     registerControl: PropTypes.func
   };
   state = {
     value: ""
   };
-  context: FilterContext<T>;
+  context: FilterContext<Data, any>;
 
   updateFilter: () => void;
   unregisterControl: Function;
@@ -37,12 +40,16 @@ export default class FilterControl<T> extends React.Component<Props<T>, State> {
   componentWillUnmount() {
     this.unregisterControl();
   }
-  getValue = () =>
-    this.props.value === undefined ? this.state.value : this.props.value;
-  compare = value => {
+  getValue(): string {
+    if (this.props.value === undefined) {
+      return this.state.value;
+    }
+    return this.props.value;
+  }
+  compare = (value: string): ((MappedValue) => boolean) => {
     return this.props.compare(value);
   };
-  control = (): ControlPair<T> | undefined => {
+  control = (): ControlPair<Data, MappedValue> | undefined => {
     if (isActive(this.getValue())) {
       return [this.props.mapValuesToComparison, this.compare(this.getValue())];
     }

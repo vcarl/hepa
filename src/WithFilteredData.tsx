@@ -1,10 +1,8 @@
-import React, { ReactElement, ReactInstance } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Predicate } from "./filter.d";
 
-type VoidFunc = () => void;
-
-interface Props<T> {
+export interface Props<T> {
   data: T[];
 }
 
@@ -12,6 +10,9 @@ function WithFilteredData<T>(
   Thing: new () => React.Component<Props<T> | {}, {}>
 ): React.ComponentClass {
   return class WithFilter extends React.Component<{ data: T[] }, {}> {
+    static propTypes = {
+      data: PropTypes.array
+    };
     static contextTypes = {
       subscribe: PropTypes.func
     };
