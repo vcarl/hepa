@@ -7,7 +7,6 @@
     "name": "Carl Vitullo"
   },
   "dependencies": {
-    "fast-memoize": "^2.2.8",
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
