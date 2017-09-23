@@ -6,9 +6,7 @@ import Filter from "./Filter";
 import WithFilteredData from "./WithFilteredData";
 
 export { FilterProvider, Filter, Exact, Fuzzy, Search, WithFilteredData };
-export interface values {
-  [key: string]: number | string;
-}
+
 export type ControlPair<Data, MappedValue> = [
   (datum: Data) => MappedValue,
   (value: MappedValue) => boolean
@@ -17,6 +15,7 @@ export type ControlPair<Data, MappedValue> = [
 export type Control<Data, MappedValue> = () =>
   | ControlPair<Data, MappedValue>
   | undefined;
+
 export interface Predicate<T> {
   (predicate: T): boolean;
 }
