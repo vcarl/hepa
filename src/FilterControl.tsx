@@ -10,6 +10,7 @@ export interface Props<Data, MappedValue> {
   compare: (comparator: string) => (dataValue: MappedValue) => boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
+  render?: Function;
 }
 
 export interface State {
@@ -24,7 +25,8 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     mapValuesToComparison: PropTypes.func.isRequired,
     compare: PropTypes.func.isRequired,
     onChange: PropTypes.func,
-    value: PropTypes.string
+    value: PropTypes.string,
+    render: PropTypes.func
   };
   static contextTypes = {
     registerControl: PropTypes.func
@@ -82,8 +84,16 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
       compare,
       onChange,
       value,
+      render,
       ...rest
     } = this.props;
+    if (typeof render === "function") {
+      return render({
+        ...rest,
+        value: this.getValue(),
+        onChange: this.handleChange
+      });
+    }
     return (
       <input {...rest} value={this.getValue()} onChange={this.handleChange} />
     );
