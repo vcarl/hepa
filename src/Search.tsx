@@ -24,10 +24,14 @@ export default class Search<T> extends React.Component<Props, {}> {
   compare = (filterValue: string) => (dataValues: string[]): boolean =>
     dataValues.some(value => value.includes(filterValue));
   render() {
+    // There's a weird syntax for passing types to a generic react component
+    // https://github.com/Microsoft/TypeScript/issues/3960#issuecomment-165330151
+    const { keys, ...props } = this.props;
     type TypedFilterControl = new () => FilterControl<T, string[]>;
     const TypedFilterControl = FilterControl as TypedFilterControl;
     return (
       <TypedFilterControl
+        {...props}
         mapValuesToComparison={this.mapValuesToComparison}
         compare={this.compare}
       />

@@ -8,7 +8,6 @@ const isActive = (value: string) => value !== "";
 export interface Props<Data, MappedValue> {
   mapValuesToComparison: (datum: Data) => MappedValue;
   compare: (comparator: string) => (dataValue: MappedValue) => boolean;
-  name?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   value?: string;
 }
@@ -24,7 +23,6 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
   static propTypes = {
     mapValuesToComparison: PropTypes.func.isRequired,
     compare: PropTypes.func.isRequired,
-    name: PropTypes.string,
     onChange: PropTypes.func,
     value: PropTypes.string
   };
@@ -74,7 +72,6 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     const {
       mapValuesToComparison,
       compare,
-      name,
       onChange,
       value,
       ...rest
