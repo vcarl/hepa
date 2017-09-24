@@ -1,11 +1,12 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.2",
   "name": "hepa",
   "main": "index.js",
   "license": "MIT",
   "author": {
     "name": "Carl Vitullo"
   },
+  "repository": "vcarl/hepa",
   "dependencies": {
     "tslib": "^1.7.1"
   },
