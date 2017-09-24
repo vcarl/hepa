@@ -1,11 +1,20 @@
 import FilterProvider from "./FilterProvider";
+import FilterControl from "./FilterControl";
 import Fuzzy from "./Fuzzy";
 import Exact from "./Exact";
 import Search from "./Search";
 import Filter from "./Filter";
 import WithFilteredData from "./WithFilteredData";
 
-export { FilterProvider, Filter, Exact, Fuzzy, Search, WithFilteredData };
+export {
+  FilterProvider,
+  FilterControl,
+  Filter,
+  Exact,
+  Fuzzy,
+  Search,
+  WithFilteredData
+};
 
 export type ControlPair<Data, MappedValue> = [
   (datum: Data) => MappedValue,
