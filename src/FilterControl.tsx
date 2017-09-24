@@ -42,6 +42,14 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     this.updateFilter = update;
     this.unregisterControl = unregister;
   }
+  componentWillReceiveProps(nextProps) {
+    // It would be nice to do this elsewhere, since this means we get 2 renders
+    // for controlled components. I can't think of how to do it without messing
+    // up the API for the onChange prop.
+    if (this.props.value !== nextProps.value) {
+      this.updateFilter();
+    }
+  }
   componentWillUnmount() {
     this.unregisterControl();
   }
