@@ -10,7 +10,6 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "moment": ">=2",
     "prop-types": ">=15",
     "react": ">=15"
   },
@@ -21,7 +20,6 @@
     "@types/prop-types": "^15.5.1",
     "@types/react": "^16.0.5",
     "jest": "^21.1.0",
-    "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "rollup": "^0.50.0",
