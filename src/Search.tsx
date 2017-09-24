@@ -15,7 +15,7 @@ export default class Search<T> extends React.Component<Props, {}> {
     const { keys } = this.props;
 
     const values = keys.reduce((out: Array<string>, key, i) => {
-      out[i] = datum[key].toLowerCase();
+      out[i] = datum[key].toString().toLowerCase();
       return out;
     }, new Array<string>(keys.length));
 
