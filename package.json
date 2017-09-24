@@ -38,6 +38,7 @@
     "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
   },
   "scripts": {
-    "build": "rollup -c -o index.js"
+    "build": "rollup -c -o index.js",
+    "clean": "rm ./*.d.ts; true"
   }
 }
