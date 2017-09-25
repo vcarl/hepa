@@ -27,16 +27,24 @@
     "rollup-plugin-commonjs": "^8.2.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-typescript2": "^0.5.2",
+    "ts-jest": "^21.0.1",
     "typescript": "^2.5.2"
   },
   "jest": {
-    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
+    "collectCoverageFrom": ["src/**/*.{ts,tsx}"],
     "transform": {
-      "\\.(ts|tsx)$": "./transform.js"
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$"
+    "testMatch": [
+      "<rootDir>/test/**/*.ts?(x)",
+      "<rootDir>/test/**/?(*.)(spec|test).ts?(x)"
+    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
   },
   "scripts": {
+    "test": "jest --env=jsdom",
+    "start": "rollup -c -o index.js -w",
     "build": "rollup -c -o index.js",
     "clean": "rm ./*.d.ts; true"
   }
