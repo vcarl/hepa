@@ -77,7 +77,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
       controls: [...controls.slice(0, index), ...controls.slice(index + 1)]
     }));
   };
-  updateSubscribers({ controls }) {
+  updateSubscribers({ controls, subscribers }) {
     function predicate(values: T) {
       // Each control is a function that returns the current value in the
       // control's state. Filter out any undefined and we're left with an
@@ -88,7 +88,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
       return filteredControls.every(pair => pair[1](pair[0](values)));
     }
 
-    this.state.subscribers.forEach(subscriber => subscriber(predicate));
+    subscribers.forEach(subscriber => subscriber(predicate));
   }
   /**
    * `subscribe` takes a callback that takes no arguments and returns no value
