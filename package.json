@@ -15,7 +15,7 @@
     "react": ">=15"
   },
   "devDependencies": {
-    "@types/jest": "^20.0.8",
+    "@types/jest": "^21.1.1",
     "@types/moment": "^2.13.0",
     "@types/node": "^8.0.28",
     "@types/prop-types": "^15.5.1",
