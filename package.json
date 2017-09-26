@@ -46,7 +46,8 @@
       "<rootDir>/test/**/*.ts?(x)",
       "<rootDir>/test/**/?(*.)(spec|test).ts?(x)"
     ],
-    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"]
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"],
+    "setupFiles": ["./test/setupTests.js"]
   },
   "scripts": {
     "test": "jest --env=jsdom",
