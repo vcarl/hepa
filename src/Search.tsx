@@ -1,10 +1,13 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import PropTypes from "prop-types";
 
 import FilterControl from "./FilterControl";
 
 export interface Props {
   keys: string[];
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  render?: Function;
 }
 
 export default class Search<T> extends React.Component<Props, {}> {
