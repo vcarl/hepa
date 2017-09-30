@@ -1,7 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
-
-import { ReactChild } from "react";
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
 export interface Predicate {
   (): boolean;
@@ -9,7 +7,8 @@ export interface Predicate {
 
 export interface Props<T> {
   data: T[];
-  render: (data: T[]) => ReactChild;
+  render: (data: T[]) => React.ReactChild;
+  [key: string]: any;
 }
 
 export default class Filter<T> extends React.Component<Props<T>, {}> {
@@ -34,7 +33,8 @@ export default class Filter<T> extends React.Component<Props<T>, {}> {
     this.forceUpdate();
   };
   render() {
-    let filtered = this.props.data.filter(this.predicate);
-    return <div>{this.props.render(filtered)}</div>;
+    const { render, data, ...rest } = this.props;
+    let filtered = data.filter(this.predicate);
+    return <div {...rest}>{render(filtered)}</div>;
   }
 }

@@ -1,7 +1,6 @@
 {
   "exclude": ["node_modules/**/*"],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "module": "es2015",
     "declaration": true,
     "moduleResolution": "node",

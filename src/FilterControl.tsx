@@ -1,5 +1,5 @@
-import React, { ChangeEvent } from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import { ControlPair, FilterContext } from "./index";
 
@@ -8,7 +8,7 @@ const isActive = (value: string) => value !== "";
 export interface Props<Data, MappedValue> {
   mapValuesToComparison: (datum: Data) => MappedValue;
   compare: (comparator: string) => (dataValue: MappedValue) => boolean;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   render?: Function;
 }
@@ -70,13 +70,13 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     }
     return undefined;
   };
-  handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     if (this.props.onChange !== undefined) {
       this.props.onChange(e);
       return;
     }
     let value = e.target.value;
-    this.setState({ value }, this.updateFilter);
+    this.setState({ value }, this.updateFilter.bind(this));
   };
   render() {
     const {

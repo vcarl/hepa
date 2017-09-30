@@ -1,11 +1,11 @@
-import React, { ChangeEvent } from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
+import * as PropTypes from "prop-types";
 
 import FilterControl from "./FilterControl";
 
 export interface Props {
   keys: string[];
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   render?: Function;
 }
