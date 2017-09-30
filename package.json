@@ -52,7 +52,7 @@
   "scripts": {
     "test": "jest --env=jsdom",
     "start": "rollup -c -o index.js -w",
-    "build": "rollup -c -o index.js",
+    "build": "rollup -c -o index.js; mv ./src/*.d.ts ./",
     "clean": "rm ./*.d.ts; true"
   }
 }
