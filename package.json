@@ -2,6 +2,7 @@
   "version": "0.0.3",
   "name": "hepa",
   "main": "index.js",
+  "types": "index.d.ts",
   "license": "MIT",
   "author": {
     "name": "Carl Vitullo"
