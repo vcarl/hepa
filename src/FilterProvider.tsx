@@ -78,14 +78,14 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
     }));
   };
   updateSubscribers({ controls, subscribers }) {
-    function predicate(values: T) {
+    function predicate(value: T) {
       // Each control is a function that returns the current value in the
       // control's state. Filter out any undefined and we're left with an
       // array of Control tuples.
       const filteredControls = controls
         .map(cc => cc())
         .filter(x => x !== undefined) as ControlPair<T, any>[];
-      return filteredControls.every(pair => pair[1](pair[0](values)));
+      return filteredControls.every(pair => pair[1](pair[0](value)));
     }
 
     subscribers.forEach(subscriber => subscriber(predicate));
