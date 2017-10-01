@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   FilterProvider,
   Filter,
@@ -14,8 +14,10 @@ function TestFilter(control, data) {
   type data = { [name: string]: string };
   type TypedFilter = new () => Filter<data>;
   const TypedFilter = Filter as TypedFilter;
+  type TypedFilterProvider = new () => FilterProvider<string>;
+  const TypedFilterProvider = FilterProvider as TypedFilterProvider;
   return mount(
-    <FilterProvider>
+    <TypedFilterProvider>
       <div>{control}</div>
       <TypedFilter
         data={data}
@@ -29,7 +31,7 @@ function TestFilter(control, data) {
           </div>
         )}
       />
-    </FilterProvider>
+    </TypedFilterProvider>
   );
 }
 
