@@ -47,8 +47,8 @@ import { Exact } from "hepa";
 export default const SelectFilter = ({ children }) =>
   <Exact
     name={this.props.name}
-    render={({ onChange, value }) => (
-      <select onChange={onChange} value={value}>
+    render={(innerProps) => (
+      <select {...innerProps}>
         {this.props.children}
       </select>
     )}
@@ -73,27 +73,29 @@ The top level component that owns filter state from controls below it in the hie
 
 ### Filter
 
-A component that expects `data` to filter as a prop, and passes the filtered list to a `render` prop. This component consumes the filter predicate from `FilterProvider`.
+`data`: An array of items to filter.
+
+`render`: A function with the signature `data => ReactElement`. 
 
 ### WithFilteredData
 
-Same as the `Filter` component, but a higher order component. Expects `data` as a prop, passes filtered `data` into the wrapped component.
+`data`: An array of items to filter.
+
+Same as the `Filter` component, but a higher order component. It passes the `data` prop onto the wrapped component after filtering.
 
 ### FilterControl
 
-A generic control. This is what's used to implement the rest of the filter controls, and allows for custom controls to be implemented. This is very powerful, making this library very extensible within your codebase. It takes 2 props which it will call to build a predicate, `mapValuesToComparison` and `compare`. It will handle its own state when just handling a simple string, but it also allows for external control by accepting `value` and `onChange` props. By default it renders a simple DOM input and passes all props through, but it allows allows for a `render` prop for customized inputs.
+`mapValuesToComparison`: This method gets passed each item in the array to be filtered, and maps it to an intermediate value that gets used in `compare.` The signature is `dataItem => valueToCompare`
 
-#### Required Props
+`compare`: This is a higher order function that gets passed the output from the other prop method, then the current value of the filter control—what the user typed, by default. The signature is `filterValue => valueToCompare => boolean`
 
-##### `mapValuesToComparison: datum => intermediateValue`
+`value` (optional): By default, this component will handle its own state. It allows you to control it, however, which enables more complex use cases. This value is what is passed into `compare` as the first argument.
 
-A function that receives each item in the `data` array passed to `Filter` or `WithFilteredData` and returns the value that should be passed into `compare`.
+`onChange` (optional): Along with `value`, allows for this to be treated as a controlled component, which enables more complex use cases.
 
-##### `compare: valueFromControl => intermediateValue => boolean`
+`render` (optional): By default, it renders a single `input` element. More complex filter controls, like select boxes or ranges, might need different rendered output. This gets passed all props from `FilterControl` except `mapValuesToComparison` and `compare`.
 
-A curried function that expects the value from within `FilterControl` (either from its own state if uncontrolled, or from a `value` prop if controlled) and the value returned from `mapValuesToComparison`.
-
-For example, in `Exact`, these two functions are very simple. When mapping the data, it pulls off a single key that gets compared to the current filter value.
+In the included `Exact` component, the two required props are as below.
 
 ```js
 mapValuesToComparison = 
@@ -121,17 +123,6 @@ compare = (filterValue /* a string value typed by the user */) =>
   (dataValues /* the array returned from `mapValuesToComparison` */) =>
     dataValues.some(value => value.includes(filterValue));
 ```
-
-#### Optional Props
-
-##### `onChange`
-##### `value`
-
-These can be passed to make the input controlled. If you need more complex behavior, you can extract the filter state while still leaning on `FilterControl` to build a predicate and communicate it to the `FilterProvider`.
-
-##### `render`
-
-Some filters are more complex than a simple text input. Maybe you want to render an HTML `select`, or use an existing component. All props other than `mapValuesToComparison` and `compare` are passed into this function as an argument. You'll likely only need to use `value` and `onChange` in here.
 
 ### Exact
 
