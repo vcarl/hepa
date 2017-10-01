@@ -40,6 +40,11 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
   unregisterControl: Function;
 
   componentDidMount() {
+    if (this.context.registerControl === undefined) {
+      throw new Error(
+        "registerControl is undefined. You might have forgotten a FilterProvider."
+      );
+    }
     let { unregister, update } = this.context.registerControl(this.control);
     this.updateFilter = update;
     this.unregisterControl = unregister;
