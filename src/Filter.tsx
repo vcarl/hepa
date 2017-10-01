@@ -7,7 +7,7 @@ export interface Predicate {
 
 export interface Props<T> {
   data: T[];
-  render: (data: T[]) => React.ReactChild;
+  render: (data: T[]) => React.ReactElement<any>;
   [key: string]: any;
 }
 
@@ -33,8 +33,8 @@ export default class Filter<T> extends React.Component<Props<T>, {}> {
     this.forceUpdate();
   };
   render() {
-    const { render, data, ...rest } = this.props;
+    const { render, data } = this.props;
     let filtered = data.filter(this.predicate);
-    return <div {...rest}>{render(filtered)}</div>;
+    return render(filtered);
   }
 }
