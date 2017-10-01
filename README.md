@@ -11,6 +11,60 @@ When iterating on different filter controls for data, a big impediment is wiring
 
 Because these components use context to communicate, they can be used in any combination without any manual wiring. Put a `FilterProvider` at the top, add some custom `FilterControls` (or one of the built in controls), and pass data into a `Filter` component.
 
+## Example usage
+
+```js
+<FilterProvider>
+  <div>
+    <Exact name="name" />
+    <Search keys={["name", "email", "id"]}>
+    <Fuzzy name="email" />
+  </div>
+  <ul>
+    <Filter
+      data={rawData}
+      render={filteredData =>
+        filteredData.map(datum => (
+          <li>
+            {datum.name}, {datum.email}
+          </li>
+        ))
+      }
+    />
+  </ul>
+</FilterProvider>
+```
+
+The top level `FilterProvider` wraps a set of controls. Think of it how you would a `form`, rather than how Redux or react-router's top level providers work. Instead of a single provider for your whole app, it should only wrap the controls you want to apply to a given `Filter`.
+
+### Custom filter controls
+
+For instance, we could reuse the `Exact` control to create a select of possible options.
+
+```js
+import { Exact } from "hepa";
+
+export default const SelectFilter = ({ children }) =>
+  <Exact
+    name={this.props.name}
+    render={({ onChange, value }) => (
+      <select onChange={onChange} value={value}>
+        {this.props.children}
+      </select>
+    )}
+  />
+
+/**
+ * Used like:
+ * <SelectFilter name="customerId">
+ *  <option value="1">Google</option>
+ *  <option value="2">Facebook</option>
+ *  <option value="3">Apple</option>
+ *  <option value="4">Microsoft</option>
+ * </SelectFilter>
+ */
+```
+
 ## API Reference
 
 ### FilterProvider
@@ -90,55 +144,3 @@ This performs a "fuzzy" match akin to Sublime Text's cmd-p menu on what is enter
 ### Search
 
 This checks if multiple keys contain what is entered into the filter as a substring, with the value on the data keys passed in as the `name` prop. For instance, a data value with the shape of `{ id: 1, username: 'vcarl', email: 'vcarl@me.com' }` would match `<Search keys={["username", "email"]}>` with "@me.com" entered. 
-
-## Example usage
-
-```js
-<FilterProvider>
-  <div>
-    <Exact name="name" />
-    <Search keys={["name", "email", "id"]}>
-    <Fuzzy name="email" />
-  </div>
-  <ul>
-    <Filter
-      data={rawData}
-      render={filteredData =>
-        filteredData.map(datum => (
-          <li>
-            {datum.name}, {datum.email}
-          </li>
-        ))
-      }
-    />
-  </ul>
-</FilterProvider>
-```
-
-### Custom filter controls
-
-For instance, we could reuse the `Exact` control to create a select of possible options.
-
-```js
-import { Exact } from "hepa";
-
-export default const SelectFilter = ({ children }) =>
-  <Exact
-    name={this.props.name}
-    render={({ onChange, value }) => (
-      <select onChange={onChange} value={value}>
-        {this.props.children}
-      </select>
-    )}
-  />
-
-/**
- * Used like:
- * <SelectFilter name="customerId">
- *  <option value="1">Google</option>
- *  <option value="2">Facebook</option>
- *  <option value="3">Apple</option>
- *  <option value="4">Microsoft</option>
- * </SelectFilter>
- */
-```
