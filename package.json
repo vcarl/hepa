@@ -1,8 +1,9 @@
 {
   "version": "0.0.4",
   "name": "hepa",
-  "main": "index.js",
-  "types": "index.d.ts",
+  "main": "./dist/hepa.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
   "license": "MIT",
   "author": {
     "name": "Carl Vitullo"
