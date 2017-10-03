@@ -49,7 +49,7 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     this.updateFilter = update;
     this.unregisterControl = unregister;
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props<Data, MappedValue>) {
     // It would be nice to do this elsewhere, since this means we get 2 renders
     // for controlled components. I can't think of how to do it without messing
     // up the API for the onChange prop.
@@ -66,7 +66,7 @@ export default class FilterControl<Data, MappedValue> extends React.Component<
     }
     return this.props.value;
   }
-  compare = (value: string): ((MappedValue) => boolean) => {
+  compare = (value: string): ((value: MappedValue) => boolean) => {
     return this.props.compare(value);
   };
   control = (): ControlPair<Data, MappedValue> | undefined => {
