@@ -14,7 +14,7 @@ export default class Exact<T> extends React.Component<Props, {}> {
   static propTypes = {
     name: PropTypes.string.isRequired
   };
-  mapValuesToComparison = datum => datum[this.props.name];
+  mapValuesToComparison = (datum: T) => datum[this.props.name];
   compare = (filterValue: string) => (dataValue: string) =>
     dataValue === filterValue;
   render() {

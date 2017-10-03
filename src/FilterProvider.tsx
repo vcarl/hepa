@@ -45,7 +45,7 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
   componentDidMount() {
     this.updateSubscribers(this.state);
   }
-  componentWillUpdate(_nextProps, nextState) {
+  componentWillUpdate(_: any, nextState: State<T>) {
     this.updateSubscribers(nextState);
   }
   componentWillUnmount() {}
@@ -77,7 +77,13 @@ export default class FilterProvider<T> extends React.Component<{}, State<T>> {
       controls: [...controls.slice(0, index), ...controls.slice(index + 1)]
     }));
   };
-  updateSubscribers({ controls, subscribers }) {
+  updateSubscribers({
+    controls,
+    subscribers
+  }: {
+    controls: Control<T, any>[];
+    subscribers: Subscriber<T>[];
+  }) {
     function predicate(value: T) {
       // Each control is a function that returns the current value in the
       // control's state. Filter out any undefined and we're left with an
